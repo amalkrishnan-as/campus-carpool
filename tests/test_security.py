@@ -19,6 +19,9 @@ def test_create_and_decode_access_token():
 
 
 def test_is_college_email():
+    assert is_college_email("student@sctce.ac.in")
+    assert is_college_email("abcd@college.ac.in")
+    assert is_college_email("amal@sctce.ac.in")
     assert is_college_email("student@college.edu")
     assert is_college_email("john@university.edu")
     assert is_college_email("alice@cs.college.edu")

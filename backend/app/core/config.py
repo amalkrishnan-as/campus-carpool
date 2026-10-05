@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALLOWED_ORIGINS: str = "http://localhost:3000"
-    COLLEGE_EMAIL_DOMAINS: str = "college.edu,university.edu,ac.in,edu"
+    COLLEGE_EMAIL_DOMAINS: str = "sctce.ac.in,ac.in,college.ac.in,college.edu,university.edu,edu"
     ENVIRONMENT: str = "development"
 
     @property

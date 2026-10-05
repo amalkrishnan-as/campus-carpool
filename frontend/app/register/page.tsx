@@ -158,7 +158,7 @@ export default function RegisterPage() {
                       College Email Address
                     </label>
                     <span className="text-[11px] font-semibold text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded-md border border-indigo-500/20">
-                      @college.edu or @ac.in
+                      @sctce.ac.in or @*.ac.in
                     </span>
                   </div>
                   <div className="relative">
@@ -166,7 +166,7 @@ export default function RegisterPage() {
                     <input
                       type="email"
                       required
-                      placeholder="alex@college.edu"
+                      placeholder="alex@sctce.ac.in"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full h-12 pl-12 pr-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder:text-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"

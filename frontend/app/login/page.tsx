@@ -83,7 +83,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   required
-                  placeholder="student@college.edu"
+                  placeholder="student@sctce.ac.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-12 pl-12 pr-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder:text-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
