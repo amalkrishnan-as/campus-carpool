@@ -44,6 +44,45 @@ async function request<T>(
   return data as T;
 }
 
+export function getErrorMessage(err: unknown): string {
+  if (err instanceof ApiError) {
+    if (err.status === 404) {
+      return "Backend API endpoint not found (404). If you deployed on Vercel, please set NEXT_PUBLIC_API_URL to your deployed backend URL.";
+    }
+    if (typeof err.detail === 'string' && err.detail) {
+      return err.detail;
+    }
+    if (Array.isArray(err.detail)) {
+      // Pydantic validation error array
+      return err.detail
+        .map((e: { msg?: string; message?: string }) => e.msg || e.message || JSON.stringify(e))
+        .join(', ');
+    }
+    if (typeof err.detail === 'object' && err.detail !== null) {
+      const d = err.detail as Record<string, unknown>;
+      if (d.message) return String(d.message);
+      if (d.error && typeof d.error === 'object' && (d.error as Record<string, unknown>).message) {
+        return String((d.error as Record<string, unknown>).message);
+      }
+      if (d.detail) {
+        if (typeof d.detail === 'string') return d.detail;
+        if (typeof d.detail === 'object' && d.detail !== null && (d.detail as Record<string, unknown>).message) {
+          return String((d.detail as Record<string, unknown>).message);
+        }
+      }
+      return JSON.stringify(err.detail);
+    }
+    return `Server returned error (${err.status})`;
+  }
+  if (err instanceof Error) {
+    if (err.message === 'Failed to fetch') {
+      return "Unable to connect to the backend server. Please verify your backend is running and NEXT_PUBLIC_API_URL is configured in your Vercel settings.";
+    }
+    return err.message;
+  }
+  return "An unexpected error occurred. Please check your information.";
+}
+
 export { request, ApiError };
 
 // Auth

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { getErrorMessage } from '@/lib/api';
 import { Car, Lock, Mail, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
@@ -23,16 +24,7 @@ export default function LoginPage() {
       await login(email.trim(), password);
       router.push('/dashboard');
     } catch (err: unknown) {
-      let msg = 'Failed to sign in. Please verify your credentials.';
-      if (err instanceof Error) {
-        try {
-          const parsed = JSON.parse(err.message);
-          if (parsed.message) msg = parsed.message;
-        } catch {
-          msg = err.message;
-        }
-      }
-      setError(msg);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

@@ -25,6 +25,17 @@ app.add_middleware(
 app.include_router(api_router)
 
 
+@app.on_event("startup")
+def on_startup():
+    if settings.ENVIRONMENT != "testing":
+        from app.core.database import Base, engine
+        import app.models  # ensure models are registered
+        try:
+            Base.metadata.create_all(bind=engine)
+        except Exception as e:
+            print(f"[DB Notice] Auto-create tables skipped or failed: {e}")
+
+
 @app.get("/health")
 @app.get("/api/health")
 def health_check():
@@ -33,7 +44,9 @@ def health_check():
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
+    print(f"[SERVER ERROR] {request.method} {request.url.path}: {exc}")
+    msg = str(exc) if settings.ENVIRONMENT != "production" else "An unexpected error occurred"
     return JSONResponse(
         status_code=500,
-        content={"error": {"code": "INTERNAL_ERROR", "message": "An unexpected error occurred"}},
+        content={"error": {"code": "INTERNAL_ERROR", "message": msg}},
     )

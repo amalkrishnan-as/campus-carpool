@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, getErrorMessage } from '@/lib/api';
 import {
   Car,
   User,
@@ -54,16 +54,7 @@ export default function RegisterPage() {
 
       setSuccess(true);
     } catch (err: unknown) {
-      let msg = 'Registration failed. Please check your information.';
-      if (err instanceof Error) {
-        try {
-          const parsed = JSON.parse(err.message);
-          if (parsed.message) msg = parsed.message;
-        } catch {
-          msg = err.message;
-        }
-      }
-      setError(msg);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
