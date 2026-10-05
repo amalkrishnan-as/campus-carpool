@@ -62,15 +62,10 @@ export default function AdminRidesPage() {
     if (!confirm('Are you sure you want to administratively cancel this ride?')) return;
     setCancellingId(id);
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/admin/rides/${id}/cancel`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        setRides((prev) =>
-          prev.map((r) => (r.id === id ? { ...r, status: 'CANCELLED' } : r))
-        );
-      }
+      await api.admin.cancelRide(token, id);
+      setRides((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: 'CANCELLED' } : r))
+      );
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : 'Failed to cancel ride');
     } finally {

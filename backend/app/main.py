@@ -10,6 +10,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
 )
 
 app.add_middleware(
@@ -25,6 +26,7 @@ app.include_router(api_router)
 
 
 @app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "Campus Carpool API"}
 
